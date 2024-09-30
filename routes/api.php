@@ -31,3 +31,6 @@ Route::get('/project-slug/{slug}', [PageController::class, 'projectSlug']);
 
 // rotta per gestire tutti i progetti in base al tipo
 Route::get('/projects-type/{type}', [PageController::class, 'projectsType']);
+
+// rotta per gestire tutti i progetti in base alle tecnologie
+Route::get('/projects-technologies/{technology}', [PageController::class, 'projectTechnologies']);

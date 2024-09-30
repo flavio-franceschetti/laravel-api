@@ -79,4 +79,12 @@ class PageController extends Controller
         return response()->json($projectType);
       }
 
+    // creo una funzione che mi restituisce tutti i progetti in base al tipo
+    public function projectTechnologies($technology){
+        // restituisce tutti i progetti dove il type_id è uguale al $type che viene passato
+        $technologies = Technology::find($technology);
+        $projects = $technologies->projects()->with('type', 'technologies')->get();
+        return response()->json($projects);
+      }
+
 }
