@@ -25,3 +25,6 @@ Route::get('/projects', [PageController::class, 'index']);
 Route::get('/technologies', [PageController::class, 'technologies']);
 // creo la route per visualizzare tutti i type
 Route::get('/types', [PageController::class, 'types']);
+
+// rotta per gestire il singolo progetto passandogli lo slug
+Route::get('/project-slug/{slug}', [PageController::class, 'projectSlug']);
