@@ -8,6 +8,8 @@ use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Http\Request;
 
+use function PHPUnit\Framework\isEmpty;
+
 class PageController extends Controller
 {
 
@@ -76,6 +78,14 @@ class PageController extends Controller
     public function projectsType($type){
         // restituisce tutti i progetti dove il type_id è uguale al $type che viene passato
         $projectType = Project::where('type_id', 'LIKE', $type)->with('type', 'technologies')->get();
+
+        // controllo che i project type esistano
+        if($projectType->isEmpty()){
+            return response()->json([
+                'message' => 'data not fount, error 404',
+            ]);
+        }
+
         return response()->json($projectType);
       }
 
@@ -83,6 +93,14 @@ class PageController extends Controller
     public function projectTechnologies($technology){
         // restituisce tutti i progetti dove il type_id è uguale al $type che viene passato
         $technologies = Technology::find($technology);
+
+        // controllo che 4technologies esista
+        if(!$technologies){
+            return response()->json([
+                'message' => 'data not fount, error 404',
+            ]);
+        }
+
         $projects = $technologies->projects()->with('type', 'technologies')->get();
         return response()->json($projects);
       }
