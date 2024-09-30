@@ -19,5 +19,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//creo la route per l'index della mia API
+//creo la route per l'index della mia API dove visualizzo tutti i progetti con tutti i type e le technologies associate
 Route::get('/projects', [PageController::class, 'index']);
+// creo la route per visualizzare tutte le technologies
+Route::get('/technologies', [PageController::class, 'technologies']);
+
