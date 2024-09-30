@@ -51,18 +51,26 @@ class PageController extends Controller
         // cerca il progetto con lo slugche viene passato e gli passo anche i tipi e le tecnologie che ha quel singolo progetto
         $project = Project::where('slug', 'LIKE', $slug)->with('type', 'technologies')->first();
 
-        // gestisco il path dell'immagine che non voglio che sia null nei progetti senza immagine
-        if($project->image_path){
-            //se il path è presente lo compilo con asset e il tutto il path
-            $project->image_path = asset('storage/' . $project->image_path);
+        // eseguo un controllo se il progetto scelto esiste
+        if($project){
+            $status = 200;
+            // gestisco il path dell'immagine che non voglio che sia null nei progetti senza immagine
+            if($project->image_path){
+                //se il path è presente lo compilo con asset e il tutto il path
+                $project->image_path = asset('storage/' . $project->image_path);
+            }else{
+                // altrimenti gli passo l'immagine base
+                $project->image_path = '/img/placehold image.jpeg';
+            }
         }else{
-            // altrimenti gli passo l'immagine base
-            $project->image_path = '/img/placehold image.jpeg';
+            $status = 404;
         }
+
+        
 
 
         // ritorno sempre un file json con tutto il progetto
-       return response()->json($project);
+       return response()->json(compact('project', 'status'));
     }
 
 }
