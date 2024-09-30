@@ -23,4 +23,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/projects', [PageController::class, 'index']);
 // creo la route per visualizzare tutte le technologies
 Route::get('/technologies', [PageController::class, 'technologies']);
-
+// creo la route per visualizzare tutti i type
+Route::get('/types', [PageController::class, 'types']);

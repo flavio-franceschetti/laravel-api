@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use App\Models\Technology;
+use App\Models\Type;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -21,10 +22,15 @@ class PageController extends Controller
             'result' => $projects
         ]);
     }
-
+    // funzione che mi restituisce la lista di tutte le tecnologie
     public function technologies(){
         $technologies = Technology::all();
         return response()->json($technologies);
+    }
+    // funzione che mi restituisce la lista con tutti i tipi
+    public function types(){
+        $types = Type::all();
+        return response()->json($types);
     }
 
 }
