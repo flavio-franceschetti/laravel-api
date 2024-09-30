@@ -53,6 +53,7 @@ class PageController extends Controller
 
         // eseguo un controllo se il progetto scelto esiste
         if($project){
+            //se esiste la variabile status sarà 200 (la richiesta è stata eseguita con successo) e allora eseguo il controllo sull'immagine
             $status = 200;
             // gestisco il path dell'immagine che non voglio che sia null nei progetti senza immagine
             if($project->image_path){
@@ -63,14 +64,19 @@ class PageController extends Controller
                 $project->image_path = '/img/placehold image.jpeg';
             }
         }else{
+            // se il progetto non esiste allora lo status sarà 404 (La risorsa richiesta non è stata trovata)
             $status = 404;
         }
 
-        
-
-
-        // ritorno sempre un file json con tutto il progetto
+        // ritorno sempre un file json con tutto il progetto e lo status della richiesta con compact
        return response()->json(compact('project', 'status'));
     }
+
+    // creo una funzione che mi restituisce tutti i progetti in base al tipo
+    public function projectsType($type){
+        // restituisce tutti i progetti dove il type_id è uguale al $type che viene passato
+        $projectType = Project::where('type_id', 'LIKE', $type)->with('type', 'technologies')->get();
+        return response()->json($projectType);
+      }
 
 }
