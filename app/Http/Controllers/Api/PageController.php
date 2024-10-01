@@ -51,7 +51,7 @@ class PageController extends Controller
     // creo una funzione che mi restituisce il progetto selezionato con il tipo e le tecnologie tutto questo attraverso lo slug
     public function projectSlug($slug){
         // cerca il progetto con lo slugche viene passato e gli passo anche i tipi e le tecnologie che ha quel singolo progetto
-        $project = Project::where('slug', 'LIKE', $slug)->with('type', 'technologies')->first();
+        $project = Project::where('slug', $slug)->with('type', 'technologies')->first();
 
         // eseguo un controllo se il progetto scelto esiste
         if($project){
@@ -77,7 +77,7 @@ class PageController extends Controller
     // creo una funzione che mi restituisce tutti i progetti in base al tipo
     public function projectsType($type){
         // restituisce tutti i progetti dove il type_id è uguale al $type che viene passato
-        $projectType = Project::where('type_id', 'LIKE', $type)->with('type', 'technologies')->get();
+        $projectType = Project::where('type_id',  $type)->with('type', 'technologies')->get();
 
         // controllo che i project type esistano
         if($projectType->isEmpty()){
