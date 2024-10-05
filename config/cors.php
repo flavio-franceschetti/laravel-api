@@ -15,7 +15,8 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie'],
+    // Questo permette richieste CORS per tutte le rotte sotto api/* e per tutte le rotte ('*').
+    'paths' => ['api/*', '*'],
 
     'allowed_methods' => ['*'],
 
