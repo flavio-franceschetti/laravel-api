@@ -18,25 +18,32 @@ class PageController extends Controller
         // usando with gli passo tutte le entità in relazione type è al singolare perche ha una relazione one-to-many mentre technologies al prurale perché ha una relazione many-to-many
         $projects = Project::orderBy('id', 'desc')->with('type', 'technologies')->get();
         
-        // ciclo ogni progetto per gestire il path dell'immagine ad ogni singolo progetto
-        foreach($projects as $project){
-             // gestisco il path dell'immagine che non voglio che sia null nei progetti senza immagine
-        if($project->image_path){
-            //se il path è presente lo compilo con asset e aggiungo storage per completare il path che verrà restituito
-            $project->image_path = asset('storage/' . $project->image_path);
+
+        if($projects){
+            $status = 200;
+            // ciclo ogni progetto per gestire il path dell'immagine ad ogni singolo progetto
+            foreach($projects as $project){
+                 // gestisco il path dell'immagine che non voglio che sia null nei progetti senza immagine
+            if($project->image_path){
+                //se il path è presente lo compilo con asset e aggiungo storage per completare il path che verrà restituito
+                $project->image_path = asset('storage/' . $project->image_path);
+            }else{
+                // altrimenti gli passo l'immagine base
+                $project->image_path = '/img/placehold image.jpeg';
+                // per non avere un valore null imposto un nome base per il campo img_original_name
+                $project->img_original_name = 'no image';
+            }
+            // se non è specificato il tipo l'api restituisce no type invece che null
+            if(!$project->type_id){
+                $project->type_id = 'no type';
+            }
+            }
         }else{
-            // altrimenti gli passo l'immagine base
-            $project->image_path = '/img/placehold image.jpeg';
-            // per non avere un valore null imposto un nome base per il campo img_original_name
-            $project->img_original_name = 'no image';
-        }
+            $status = 404;
         }
 
         //ritorno un file json con il risultato della richiesta e l'array con tutti i progetti
-        return response()->json([
-            'status' => 200,
-            'result' => $projects
-        ]);
+        return response()->json(compact('status', 'projects'));
     }
 
 
@@ -135,9 +142,19 @@ class PageController extends Controller
             $status = 404;
         }else{
             $status = 200;
+            // recupero tutti i progetti legati che hanno la teconologia inserita
+            $projects = $technologies->projects()->with('type', 'technologies')->get();
+
+            foreach($projects as $project){
+                if($project->image_path){
+                    $project->image_path = asset('storage/' . $project->image_path);
+                }else{
+                    $project->image_path = '/img/placehold image.jpeg';
+                    $project->img_original_name = 'no img';
+                }
+            }
         }
 
-        $projects = $technologies->projects()->with('type', 'technologies')->get();
         return response()->json(compact('status', 'projects'));
       }
 
