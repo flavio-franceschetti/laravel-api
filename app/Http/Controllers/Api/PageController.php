@@ -16,9 +16,8 @@ class PageController extends Controller
     // creo la funzione index per visualizzare tutti i miei progetti dentro l'api
     public function index(){
         // usando with gli passo tutte le entità in relazione type è al singolare perche ha una relazione one-to-many mentre technologies al prurale perché ha una relazione many-to-many
-        $projects = Project::orderBy('id', 'desc')->with('type', 'technologies')->get();
+        $projects = Project::orderBy('id', 'desc')->with('type', 'technologies')->paginate(10);
         
-
         if($projects){
             $status = 200;
             // ciclo ogni progetto per gestire il path dell'immagine ad ogni singolo progetto

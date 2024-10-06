@@ -17,7 +17,7 @@ class ProjectsTableSeeder extends Seeder
      */
     public function run(Faker $faker): void
     {
-        for($i = 0; $i < 20; $i++){
+        for($i = 0; $i < 50; $i++){
             $newProject = new Project();
             $newProject->name = $faker->sentence();
             // mischia tutti gli elementi della tabella type, prende il primo elemento e mi restituisce il suo id
