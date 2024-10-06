@@ -140,6 +140,7 @@ class PageController extends Controller
         // controllo che $technologies esista
         if(!$technologies){
             $status = 404;
+            $projects = [];
         }else{
             $status = 200;
             // recupero tutti i progetti legati che hanno la teconologia inserita
