@@ -9,6 +9,7 @@ use App\Models\Project;
 use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
@@ -18,10 +19,12 @@ class ProjectController extends Controller
      */
     public function index(Request $request)
     {
-        $projectCount = Project::count('id');
-
-        $projects = Project::orderBy('id', 'desc')->paginate(10);
+        // totale progetti presenti
+        $projectCount = Project::where('user_id', Auth::id())->count('id');
         
+        $projects = Project::orderBy('id', 'desc')->where('user_id', Auth::id())->paginate(10);
+        
+        // richiesta per la barra di ricerca se attiva
         if($request->search){
             $projects = Project::where('name', 'LIKE', "%{$request->search}%")->orderBy('id')->paginate(10);
         }
