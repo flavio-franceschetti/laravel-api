@@ -14,5 +14,5 @@ class DashboardController extends Controller
         $projectCount = Project::where('user_id', Auth::id())->count('id');
 
         return view('admin.index', compact('projectCount'));
-    }
+    } 
 }

@@ -12,6 +12,7 @@ class Project extends Model
     // fillable serve per definire quali attributi possono essere assegnati in massa al modello, l assegnazione di massa avviene quando utilizzi metodi come create() o fill() e passi un array di dati per popolare il modello
     protected $fillable = [
         'type_id',
+        'user_id',
         'name',
         'description',
         'status',

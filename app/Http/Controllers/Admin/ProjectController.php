@@ -26,7 +26,7 @@ class ProjectController extends Controller
         
         // richiesta per la barra di ricerca se attiva
         if($request->search){
-            $projects = Project::where('name', 'LIKE', "%{$request->search}%")->orderBy('id')->paginate(10);
+            $projects = Project::where('name', 'LIKE', "%{$request->search}%")->where('user_id', Auth::id())->orderBy('id')->paginate(10);
         }
 
         return view('admin.projects.index', compact('projects','projectCount'));
@@ -67,6 +67,7 @@ class ProjectController extends Controller
 
        // genero lo slug con il titolo che è stato mandato nel form
        $data['slug'] = Helper::generateSlug($data['name'], Project::class);
+       $data['user_id'] = Auth::id();
 
        // fillo il nuovo progetto con tutti i dati ricevuti e laravel assegnerà automaticamente i valori provenienti dall'array $data agli attributi del modello che sono presenti in $fillable
        $newProject->fill($data);
@@ -86,7 +87,12 @@ class ProjectController extends Controller
      * Display the specified resource.
      */
     public function show(Project $project)
-    {
+    {   
+        // se l'user_id è diverso dall'user_id del progetto allora restituisce errore 404 pagina non trovata
+        if($project->user_id !== Auth::id()){
+           abort(404);
+        }
+
         return view('admin.projects.show', compact('project'));
     }
 
@@ -98,6 +104,10 @@ class ProjectController extends Controller
 
         $types = Type::all();
         $technologies = Technology::all();
+        // se l'user_id è diverso dall'user_id del progetto allora restituisce errore 404 pagina non trovata
+        if($project->user_id !== Auth::id()){
+            abort(404);
+         }
 
 
         return view('admin.projects.edit', compact('types', 'technologies', 'project'));
@@ -134,6 +144,11 @@ class ProjectController extends Controller
         } else{
             $project->technologies()->detach();
         }
+
+        // se l'user_id è diverso dall'user_id del progetto allora restituisce errore 404 pagina non trovata
+        if($project->user_id !== Auth::id()){
+            abort(404);
+         }
 
         return redirect()->route('admin.projects.show', $project->id)->with('success', 'Il progetto è stato modificato con successo!');
 
