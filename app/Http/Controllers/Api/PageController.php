@@ -28,7 +28,7 @@ class PageController extends Controller
                 $project->image_path = asset('storage/' . $project->image_path);
             }else{
                 // altrimenti gli passo l'immagine base
-                $project->image_path = '/img/placehold image.jpeg';
+                $project->image_path = asset('/img/placehold image.jpeg');
                 // per non avere un valore null imposto un nome base per il campo img_original_name
                 $project->img_original_name = 'no image';
             }
@@ -85,7 +85,7 @@ class PageController extends Controller
                 $project->image_path = asset('storage/' . $project->image_path);
             }else{
                 // altrimenti gli passo l'immagine base
-                $project->image_path = '/img/placehold image.jpeg';
+                $project->image_path = asset('/img/placehold image.jpeg');
                 // per non avere un valore null imposto un nome base per il campo img_original_name 
                 $project->img_original_name = 'no image';
             }
@@ -120,7 +120,7 @@ class PageController extends Controller
                 if($project->image_path){
                     $project->image_path = asset('storage/' . $project->image_path);
                 } else{
-                    $project->image_path = '/img/placehold image.jpeg';
+                    $project->image_path = asset('/img/placehold image.jpeg');
                     $project->img_original_name = 'no image';
                 }
             }
@@ -149,7 +149,7 @@ class PageController extends Controller
                 if($project->image_path){
                     $project->image_path = asset('storage/' . $project->image_path);
                 }else{
-                    $project->image_path = '/img/placehold image.jpeg';
+                    $project->image_path = asset('/img/placehold image.jpeg');
                     $project->img_original_name = 'no img';
                 }
             }
